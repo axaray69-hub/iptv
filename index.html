@@ -1,74 +1,41 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mırtı v93 MPEGTS Player</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mırtı v94 - Proxy Full</title>
 <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.min.js"></script>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#070b14;color:#e8e6df;font-family:Arial;height:100vh;display:flex;flex-direction:column}header{height:40px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1e2a44}#playerCol{flex:1;background:#000;display:flex;flex-direction:column;position:relative}#player{flex:1;background:#000;display:flex;align-items:center;justify-content:center;position:relative}#video{width:100%;height:100%;background:#000}#idle{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;gap:10px}#idle img{width:60%;max-width:300px;object-fit:contain;border-radius:10px}#status{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(0,0,0,.85);padding:8px 10px;border-radius:8px;font-size:10px;z-index:10}#grid{flex:1;overflow:auto;padding:6px;display:grid;grid-template-columns:1fr;gap:6px;max-height:40vh;background:#080d16}.item{padding:10px;background:#142040;border:1px solid #1e2e51;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}.item.on{border-color:#ffcc00}.ext{font-size:8px;background:#1e3a5f;padding:2px 6px;border-radius:6px}</style></head><body>
-<header><div style="font-weight:900">Mırtı v93 - MPEGTS + HLS + VLC</div><div style="display:flex;gap:6px"><button id="vlcBtn" style="background:#ff9500;color:#111;border:none;padding:5px 10px;border-radius:6px;font-weight:900;font-size:10px">VLC'de Aç</button><button id="mxBtn" style="background:#007aff;color:#fff;border:none;padding:5px 10px;border-radius:6px;font-weight:900;font-size:10px">MX Player</button></div></header>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div style="font-size:11px;text-align:center">beIN için 3 oynatıcı deneniyor<br>MPEGTS > HLS > DIRECT > PROXY</div></div><div id="status">Hazır - Kanal seç</div></div></div>
+<style>body{background:#070b14;color:#e8e6df;font-family:Arial;margin:0;height:100vh;display:flex;flex-direction:column}header{height:44px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1e2a44}#playerCol{height:50vh;background:#000;display:flex;flex-direction:column}#video{width:100%;height:100%}#status{font-size:10px;padding:4px 8px;background:#111;display:flex;justify-content:space-between}#grid{flex:1;overflow:auto;padding:6px;display:flex;flex-direction:column;gap:4px}.item{padding:8px 10px;background:#142040;border:1px solid #1e2e51;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between}.item.on{border-color:#ffcc00;background:#1a2f5a}.ext{font-size:9px;background:#1e3a5f;padding:2px 6px;border-radius:6px}</style></head><body>
+<header><div style="font-weight:900">beIN 1 - v94 PROXY</div><div style="display:flex;gap:4px"><button id="nextBtn" style="background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:6px;font-weight:900">SONRAKİ ▶</button></div></header>
+<div id="playerCol"><video id="video" controls playsinline autoplay></video><div id="status"><span id="sLeft">Hazır</span><span id="sRight">iptv.axaray69.workers.dev</span></div></div>
 <div id="grid"></div>
 <script>
-const rawList=`https://vavooproxy.magnitude.workers.dev/resolve?url=https://vavoo.to/vavoo-iptv/play/2113462398d8dd57a8ea73
-http://ekmek82.shop/live/adnan678/uBjabktvQP/1505748.m3u
-http://190502.tomtv.eu:80/BahriY944/2xx143ukf9/237081
-http://ruzgarplayer.site:8080/25w8Fv8m2S9L/5zch9RjU4SVB/418441
-http://mrtbox.xyz:2095/genco4917/genco.4917/214050?output=ts
-http://eu.kartal38.com:8080/a1qS8T80/amSpNPx/656423?output=ts
-http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:05:54:42&stream=988849&extension=ts
-http://clubxc.com:8080/Neck55828/kaFX8NQcHgfU/1106422
-http://mekantv56.win/live/akifalioglu33/33akifalioglu/053f89e1-3cc8-49e3-909a-e2b22d76edda.ts`.split("\n");
-
-let curUrl="",hls=null,mpeg=null;
-const video=document.getElementById("video"), statusEl=document.getElementById("status");
-function setStatus(t){statusEl.textContent=t}
-function destroyPlayers(){ if(hls){try{hls.destroy()}catch(e){}hls=null} if(mpeg){try{mpeg.destroy()}catch(e){}mpeg=null} video.pause(); video.removeAttribute("src"); video.load(); }
-
-function playWithMpegTS(url){
-  setStatus("1/4 MPEGTS deneniyor: "+url.substring(0,50));
-  if(mpegts.getFeatureList().mseLivePlayback){
-    mpeg=mpegts.createPlayer({type:'mpegts',isLive:true,url:url},{enableWorker:true,liveBufferLatencyChasing:true});
-    mpeg.attachMediaElement(video); mpeg.load();
-    mpeg.on(mpegts.Events.ERROR,()=>{ setStatus("MPEGTS olmadı, HLS deneniyor..."); playWithHLS(url,1); });
-    video.play().then(()=>{ setStatus("▶ MPEGTS ile oynatılıyor"); document.getElementById("idle").style.display="none"; }).catch(()=>{ playWithHLS(url,1); });
-  }else{ playWithHLS(url,1); }
+const PROXY="https://iptv.axaray69.workers.dev/?url=";
+const raw=[
+"http://190502.tomtv.eu:80/BahriY944/2xx143ukf9/237081|beIN 1 1920x1080 1",
+"http://ruzgarplayer.site:8080/25w8Fv8m2S9L/5zch9RjU4SVB/418441|beIN 1 1920x1080 2",
+"http://mrtbox.xyz:2095/genco4917/genco.4917/214050?output=ts|beIN 1 1920x1080 3",
+"http://eu.kartal38.com:8080/a1qS8T80/amSpNPx/656423?output=ts|beIN 1 1920x1080 4",
+"http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:05:54:42&stream=988849&extension=ts|beIN 1 1920x1080 5",
+"http://clubxc.com:8080/Neck55828/kaFX8NQcHgfU/1106422|beIN 1 1920x1080 6",
+"http://mekantv56.win/live/akifalioglu33/33akifalioglu/053f89e1-3cc8-49e3-909a-e2b22d76edda.ts|beIN 1 1280x720 7",
+"http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/214050|beIN 1 RAW 8",
+"http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/209141|beIN 1 FHD 9",
+"http://line.tvdsz.cc/play/live.php?mac=00:1A:79%3AB5%3ACD%3A60&stream=988852&extension=ts|beIN 1 1280x720 10",
+"http://190502.tomtv.eu:80/LiudmilaSheremet/233v9m9kjc/77238|BEIN 1 1920x1080 11",
+"http://nexusconnects.org:80/play/live.php?mac=00:1B:79:47:72:00&stream=988851&extension=ts&play_token=i9P5KZaJhe|beIN 1 1280x720 12",
+"http://ekmek82.shop/live/adnan678/uBjabktvQP/1505748.m3u|beIN 1 3840x2160 13",
+"http://ekmek82.shop/live/adnan678/uBjabktvQP/1536245.m3u|beIN 1 1920x1080 14"
+];
+let cur=0,mpeg=null; const video=document.getElementById("video");
+function destroy(){ if(mpeg){try{mpeg.destroy()}catch(e){}mpeg=null} video.pause(); video.removeAttribute("src"); video.load(); }
+function play(i){
+  cur=i; let url=raw[i].split("|")[0]; let proxied=PROXY+encodeURIComponent(url);
+  document.getElementById("sLeft").textContent="Oynatılıyor: Kaynak "+(i+1);
+  document.querySelectorAll(".item").forEach(e=>e.classList.remove("on")); document.getElementById("item-"+i)?.classList.add("on");
+  destroy();
+  if(mpegts.isSupported()){
+    mpeg=mpegts.createPlayer({type:'mpegts',isLive:true,url:proxied},{enableWorker:true,liveBufferLatencyChasing:true});
+    mpeg.attachMediaElement(video); mpeg.load(); video.play().catch(()=>{});
+  } else { video.src=proxied; video.play(); }
 }
-function playWithHLS(url, attempt){
-  setStatus((attempt==1?"2/4 HLS":"3/4 HLS Proxy")+" deneniyor");
-  if(Hls.isSupported()){
-    hls=new Hls({enableWorker:true,lowLatencyMode:true});
-    hls.loadSource(url); hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED,()=>{ video.play(); setStatus("▶ HLS ile oynatılıyor"); document.getElementById("idle").style.display="none"; });
-    hls.on(Hls.Events.ERROR,(e,data)=>{
-      if(data.fatal){
-        if(attempt==1 && url.startsWith("http://")){ playWithHLS("https://corsproxy.io/?"+encodeURIComponent(url),2); }
-        else{ setStatus("HLS olmadı, DIRECT deneniyor..."); playDirect(url,attempt); }
-      }
-    });
-  }else{ playDirect(url,attempt); }
-}
-function playDirect(url, attempt){
-  setStatus("4/4 DIRECT: "+url.substring(0,60));
-  video.src=url; video.play().then(()=>{ setStatus("▶ DIRECT ile oynatılıyor"); document.getElementById("idle").style.display="none"; }).catch(e=>{
-    setStatus("✖ Tarayıcı engelliyor (http/https) - VLC/MX'e bas - "+e.message);
-  });
-}
-function playUrl(url){
-  curUrl=url; destroyPlayers(); document.getElementById("idle").style.display="flex";
-  setStatus("Başlatılıyor...");
-  // http linkleri tarayıcıda engellenir, direkt mpegts ile dene
-  playWithMpegTS(url);
-  // VLC butonları güncelle
-  document.getElementById("vlcBtn").onclick=()=>{ window.location.href="vlc://"+url };
-  document.getElementById("mxBtn").onclick=()=>{ window.location.href="intent://"+url.replace(/^https?:\/\//,"")+"#Intent;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;end"; };
-}
-
-// liste
 let grid=document.getElementById("grid");
-rawList.forEach((u,i)=>{
-  if(!u.trim()) return;
-  let d=document.createElement("div"); d.className="item";
-  let ext = u.includes(".m3u8")?"M3U8": u.includes(".m3u")?"M3U": u.includes(".ts")||u.includes(":8080")||u.includes("extension=ts")?"TS": u.includes("vavoo")?"VAVOO":"RAW";
-  d.innerHTML=`<span>${i+1}. beIN SPORTS 1 - ${u.substring(0,45)}...</span><span class="ext">${ext}</span>`;
-  d.onclick=()=>{ document.querySelectorAll(".item").forEach(x=>x.classList.remove("on")); d.classList.add("on"); playUrl(u.trim()); };
-  grid.appendChild(d);
-});
-playUrl(rawList[0]);
+raw.forEach((e,i)=>{ let d=document.createElement("div"); d.id="item-"+i; d.className="item"; d.innerHTML=`<span>${i+1}. ${e.split("|")[1]}</span><span class="ext">PROXY TS</span>`; d.onclick=()=>play(i); grid.appendChild(d); });
+document.getElementById("nextBtn").onclick=()=>play((cur+1)%raw.length);
+play(0);
 </script></body></html>
