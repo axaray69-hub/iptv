@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mırtı68 IPTV & EPG Player</title>
-    <!-- Tailwind CSS ve FontAwesome İkonları -->
     <script src="https://jsdelivr.net"></script>
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- HLS.js (M3U8 yayınlarını oynatmak için) -->
     <script src="https://jsdelivr.net"></script>
     <style>
         .channel-item.active { background-color: #2563eb; color: white; }
@@ -18,43 +16,39 @@
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans h-screen flex flex-col m-0 overflow-hidden">
 
-    <!-- Üst Menü / Navbar -->
-    <header class="bg-gray-800 px-6 py-3 flex items-center justify-between border-b border-gray-700 shadow-md">
+    <!-- Üst Menü -->
+    <header class="bg-gray-800 px-6 py-3 flex flex-col md:flex-row items-center justify-between border-b border-gray-700 shadow-md gap-4">
         <div class="flex items-center space-x-3">
             <i class="fa-solid fa-satellite-dish text-blue-500 text-2xl animate-pulse"></i>
             <h1 class="text-xl font-bold tracking-wide">Mırtı68 Player</h1>
         </div>
-        <div class="flex items-center space-x-4 w-2/3 max-w-2xl">
-            <div class="flex flex-col w-1/2">
+        <div class="flex flex-col md:flex-row items-center gap-3 w-full md:w-2/3 max-w-2xl">
+            <div class="flex flex-col w-full md:w-1/2">
                 <span class="text-[10px] text-gray-400 font-bold mb-0.5">M3U YAYIN LINKI</span>
-                <input type="text" id="m3u-url" class="bg-gray-700 text-white px-3 py-1.5 rounded border border-gray-600 focus:outline-none focus:border-blue-500 text-xs">
+                <input type="text" id="m3u-url" class="bg-gray-700 text-white px-3 py-1.5 rounded border border-gray-600 focus:outline-none focus:border-blue-500 text-xs w-full">
             </div>
-            <div class="flex flex-col w-1/2">
+            <div class="flex flex-col w-full md:w-1/2">
                 <span class="text-[10px] text-gray-400 font-bold mb-0.5">EPG XML LINKI</span>
-                <input type="text" id="epg-url" class="bg-gray-700 text-white px-3 py-1.5 rounded border border-gray-600 focus:outline-none focus:border-blue-500 text-xs">
+                <input type="text" id="epg-url" class="bg-gray-700 text-white px-3 py-1.5 rounded border border-gray-600 focus:outline-none focus:border-blue-500 text-xs w-full">
             </div>
-            <button id="load-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-4 rounded font-medium text-xs transition shadow h-8 flex items-center">
+            <button id="load-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-1.5 rounded font-medium text-xs transition shadow h-8 md:mt-4 flex items-center shrink-0">
                 Yükle
             </button>
         </div>
     </header>
 
-    <!-- Ana İçerik Alanı -->
-    <main class="flex flex-1 overflow-hidden">
-        
-        <!-- Sol Taraf: Oynatıcı ve EPG Detayı -->
+    <!-- Ana İçerik -->
+    <main class="flex flex-1 overflow-hidden h-full">
+        <!-- Sol Taraf: Oynatıcı -->
         <section class="flex-1 bg-black flex flex-col relative overflow-hidden">
-            <!-- Video Alanı -->
-            <div class="flex-1 flex justify-center items-center relative group bg-black">
+            <div class="flex-1 flex justify-center items-center relative bg-black">
                 <video id="video" class="w-full h-full max-h-full" controls autoplay></video>
                 <div id="video-error" class="hidden absolute inset-0 bg-gray-950/95 flex flex-col items-center justify-center text-center p-4">
                     <i class="fa-solid fa-circle-exclamation text-red-500 text-4xl mb-3"></i>
                     <p class="text-lg font-semibold">Yayın Oynatılamadı.</p>
-                    <p class="text-sm text-gray-400 mt-1 max-w-md">Bu kanal tarayıcı güvenlik politikaları (CORS kısıtlaması), token süresinin dolması veya geçersiz format nedeniyle doğrudan oynatılamıyor olabilir.</p>
+                    <p class="text-sm text-gray-400 mt-1 max-w-md">Bu kanal CORS kısıtlaması veya geçersiz format nedeniyle oynatılamıyor olabilir.</p>
                 </div>
             </div>
-            
-            <!-- Canlı EPG Alt Çubuğu -->
             <div class="bg-gray-950 border-t border-gray-800 p-4 min-h-[90px] flex items-center">
                 <div id="current-program-info" class="w-full">
                     <div class="text-xs text-blue-400 font-bold uppercase tracking-wider mb-1">ŞU AN CANLI</div>
@@ -64,13 +58,11 @@
             </div>
         </section>
 
-        <!-- Sağ Taraf: Kanal Listesi ve Rehber -->
-        <section class="w-88 bg-gray-800 border-l border-gray-700 flex flex-col">
-            <!-- Filtreler ve Arama -->
+        <!-- Sağ Taraf: Kanal Listesi -->
+        <section class="w-80 bg-gray-800 border-l border-gray-700 flex flex-col shrink-0">
             <div class="p-4 border-b border-gray-700 space-y-3 bg-gray-850">
                 <div class="relative">
-                    <input type="text" id="search-input" placeholder="Kanal adı ara..." 
-                           class="w-full bg-gray-900 text-white pl-9 pr-4 py-2 rounded border border-gray-700 focus:outline-none focus:border-blue-500 text-xs">
+                    <input type="text" id="search-input" placeholder="Kanal adı ara..." class="w-full bg-gray-900 text-white pl-9 pr-4 py-2 rounded border border-gray-700 focus:outline-none focus:border-blue-500 text-xs">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-500 text-xs"></i>
                 </div>
                 <div>
@@ -79,14 +71,13 @@
                         <option value="all">Tüm Kategoriler</option>
                     </select>
                 </div>
-                <div id="channel-count" class="text-[11px] text-gray-400 font-medium">Yüklenen Kanal sayısı: 0</div>
+                <div id="channel-count" class="text-[11px] text-gray-400 font-medium">Yüklenen Kanal: 0</div>
             </div>
 
-            <!-- Kanal Listesi Gövdesi -->
             <div id="channel-list" class="flex-1 overflow-y-auto divide-y divide-gray-700/40">
                 <div class="p-8 text-center text-gray-400 text-xs flex flex-col items-center justify-center h-full">
                     <i class="fa-solid fa-tv text-3xl mb-3 opacity-40"></i>
-                    Çalma listesi bekleniyor...
+                    Yükleniyor...
                 </div>
             </div>
         </section>
@@ -102,7 +93,6 @@
         const groupFilter = document.getElementById('group-filter');
         const channelCount = document.getElementById('channel-count');
         const videoError = document.getElementById('video-error');
-        
         const epgTitle = document.getElementById('epg-title');
         const epgTime = document.getElementById('epg-time');
 
@@ -111,9 +101,10 @@
         let hls = null;
         let activeChannelId = null;
 
-        // Gönderdiğin TinyURL çözülmüş hali ve XML adresi varsayılan olarak atanır
-        const DEFAULT_M3U = "https://tinyurl.com/mirtitv68";
-        const DEFAULT_XML = "https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
+        // CORS Engelini aşmak için proxy adresi
+        const PROXY = "https://corsproxy.io?";
+        const DEFAULT_M3U = "https://tinyurl.com";
+        const DEFAULT_XML = "https://githubusercontent.com";
 
         window.addEventListener('DOMContentLoaded', () => {
             m3uUrlInput.value = DEFAULT_M3U;
@@ -129,19 +120,15 @@
         groupFilter.addEventListener('change', () => renderChannels());
 
         async function initSetup(m3uUrl, xmlUrl) {
-            channelList.innerHTML = `<div class="p-8 text-center text-blue-400 text-xs"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Veriler senkronize ediliyor...</div>`;
-            if (xmlUrl) {
-                await fetchEPG(xmlUrl);
-            }
-            if (m3uUrl) {
-                await fetchM3U(m3uUrl);
-            }
+            channelList.innerHTML = `<div class="p-8 text-center text-blue-400 text-xs"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Veriler çekiliyor...</div>`;
+            if (xmlUrl) await fetchEPG(xmlUrl);
+            if (m3uUrl) await fetchM3U(m3uUrl);
         }
 
-        // EPG Verisini Çekme ve XML Ayrıştırma
         async function fetchEPG(url) {
             try {
-                const response = await fetch(url);
+                // Tarayıcı engelini aşmak için proxy ile istek atıyoruz
+                const response = await fetch(PROXY + encodeURIComponent(url));
                 if (!response.ok) throw new Error('EPG yüklenemedi');
                 const text = await response.text();
                 const parser = new DOMParser();
@@ -155,25 +142,25 @@
                     const chId = prog.getAttribute('channel');
                     const start = prog.getAttribute('start');
                     const stop = prog.getAttribute('stop');
-                    const title = prog.getElementsByTagName('title')[0]?.textContent || 'Bilinmeyen Program';
+                    const titleElement = prog.getElementsByTagName('title')[0];
+                    const title = titleElement ? titleElement.textContent : 'Bilinmeyen Program';
 
                     if (!epgData[chId]) epgData[chId] = [];
                     epgData[chId].push({ start, stop, title });
                 }
             } catch (err) {
-                console.error("EPG Ayrıştırma Hatası veya CORS engeli:", err);
+                console.error("EPG Hatası:", err);
             }
         }
 
-        // M3U Dosyasını Çekme ve Parçalama
         async function fetchM3U(url) {
             try {
-                const response = await fetch(url);
+                const response = await fetch(PROXY + encodeURIComponent(url));
                 if (!response.ok) throw new Error('M3U yüklenemedi');
                 const text = await response.text();
                 parseM3U(text);
             } catch (error) {
-                channelList.innerHTML = `<div class="p-6 text-center text-red-400 text-xs"><i class="fa-solid fa-triangle-exclamation mr-2"></i>Liste yüklenemedi. (CORS veya Ağ Hatası)</div>`;
+                channelList.innerHTML = `<div class="p-6 text-center text-red-400 text-xs"><i class="fa-solid fa-triangle-exclamation mr-2"></i>M3U listesi yüklenemedi.</div>`;
             }
         }
 
@@ -189,3 +176,11 @@
                     const tvgId = line.match(/tvg-id="([^"]+)"/)?.[1] || "";
                     const logo = line.match(/tvg-logo="([^"]+)"/)?.[1] || "";
                     const group = line.match(/group-title="([^"]+)"/)?.[1] || "Diğerleri";
+                    const parts = line.split(',');
+                    const name = parts[parts.length - 1] || "Bilinmeyen Kanal";
+
+                    currentChannel = { tvgId, logo, group, name };
+                    if(group) categories.add(group);
+                } else if (line && !line.startsWith('#') && currentChannel) {
+                    currentChannel.url = line;
+                    channels.push(currentChannel);
