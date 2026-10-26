@@ -1,104 +1,109 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mırtı beIN v89 Multi-Source</title><script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#070b14;color:#e8e6df;font-family:Arial;height:100vh;display:flex;flex-direction:column}header{height:44px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #1e2a44}.logo{font-weight:900;display:flex;gap:8px;align-items:center}.top{background:#0d1a33;display:flex;gap:6px;padding:8px;border-bottom:1px solid #1c2b4a;overflow:auto}#playerCol{flex:1;min-height:0;background:#000;display:flex;flex-direction:column;position:relative}#player{flex:1;background:#000;display:flex;align-items:center;justify-content:center;position:relative}#video{width:100%;height:100%;object-fit:contain;background:#000}#status{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:8px;font-size:11px;z-index:5}#sources{height:110px;background:#0f2440;border-top:2px solid #ff3b30;display:flex;flex-direction:column;flex-shrink:0}#srcHead{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1e3a5f;font-size:11px;font-weight:800}#srcGrid{flex:1;overflow:auto;display:flex;gap:6px;padding:8px;flex-wrap:nowrap}.srcChip{padding:8px 14px;background:#1e3a5f;border:1px solid #2a5a9a;border-radius:20px;font-size:11px;white-space:nowrap;cursor:pointer;flex-shrink:0;font-weight:700;color:#c8d8ff}.srcChip.on{background:#ffcc00;color:#111;border-color:#ffcc00}.srcChip.ok{border-color:#00ff88}.srcChip.fail{opacity:.4;border-color:#ff3b30}#fsBtn{position:absolute;top:10px;right:10px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);width:32px;height:32px;border-radius:8px;cursor:pointer}#epgBar{height:28px;background:#101c33;display:flex;align-items:center;padding:0 10px;font-size:11px;gap:8px;border-top:1px solid #1c2b4a}@media(min-width:900px){#sources{height:130px}#srcGrid{flex-wrap:wrap}}</style></head><body><header><div class="logo">📡 beIN SPORTS 1 - 28 KAYNAK</div><div id="net" style="font-size:10px;background:#101c33;padding:4px 8px;border-radius:8px">Hazır</div></header><div id="playerCol"><div id="player"><video id="video" controls playsinline></video><div id="status">Kaynak 1 deneniyor...</div><button id="fsBtn">⛶</button></div><div id="epgBar"><span id="epg">Otomatik yedek aktif - Kaynak patlarsa sonrakine geçer</span><button id="nextSrc" style="margin-left:auto;background:#ff3b30;color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:800">SONRAKİ KAYNAK ▶</button></div><div id="sources"><div id="srcHead"><span>📡UYDU beIN SPORTS - Tüm Kaynaklar</span><span id="count">28 link</span></div><div id="srcGrid"></div></div></div><script>
-const rawList=`#EXTINF:-1 tvg-id="BeinSports1.tr" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 3840x2160
-https://vavooproxy.magnitude.workers.dev/resolve?url=https://vavoo.to/vavoo-iptv/play/2113462398d8dd57a8ea73
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1  3840x2160
-http://ekmek82.shop/live/adnan678/uBjabktvQP/1505748.m3u
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://190502.tomtv.eu:80/BahriY944/2xx143ukf9/237081
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://ruzgarplayer.site:8080/25w8Fv8m2S9L/5zch9RjU4SVB/418441
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://mrtbox.xyz:2095/genco4917/genco.4917/214050?output=ts
-#EXTINF:-1 tvg-id="beinsports1.tr" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://eu.kartal38.com:8080/a1qS8T80/amSpNPx/656423?output=ts
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",BEIN SPORTS 1 1920x1080
-http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:05:54:42&stream=988849&extension=ts
-#EXTINF:-1 tvg-id="beinsports1.tr" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://clubxc.com:8080/Neck55828/kaFX8NQcHgfU/1106422
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1280x720
-http://mekantv56.win/live/akifalioglu33/33akifalioglu/053f89e1-3cc8-49e3-909a-e2b22d76edda.ts
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 RAW
-http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/214050
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 FHD
-http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/209141
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 fHD - EXTRA
-http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/209476
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 HD
-http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/214051
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 HD - EXTRA
-http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/220373
-#EXTINF:-1 tvg-id="taraftar1.tr" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 TICARI YAYIN
-http://sanslm0707pan.com:2095/cgdm4141/29012025cg41/66811
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1280x720
-http://line.tvdsz.cc/play/live.php?mac=00%3A1A%3A79%3AB5%3ACD%3A60&stream=988852&extension=ts
-#EXTINF:0 tvg-id="NULL" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS" tvg-agent="Firefox",BEIN SPORTS 1 1920x1080
-http://190502.tomtv.eu:80/LiudmilaSheremet/233v9m9kjc/77238
-#EXTINF:0 tvg-id="NULL" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS" tvg-agent="Firefox",beIN SPORTS 1 854x480
-http://190502.tomtv.eu:80/LiudmilaSheremet/233v9m9kjc/84
-#EXTINF:0 tvg-id="NULL" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS" tvg-agent="Firefox",beIN SPORTS 1 1280x720
-http://190502.tomtv.eu:80/LiudmilaSheremet/233v9m9kjc/89
-#EXTINF:-1 tvg-id="BeinSports1.tr" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",BEIN SPORTS 1920x1080
-https://vavooproxy.magnitude.workers.dev/resolve?url=https://vavoo.to/vavoo-iptv/play/267105889a25a483e5e80
-#EXTINF:0 tvg-id="beIN SPORTS" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS" tvg-agent="Firefox",beIN SPORTS 1 1920x1080
-http://190502.tomtv.eu:80/LiudmilaSheremet/233v9m9kjc/237081
-#EXTINF:0 tvg-id="NULL" tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS" tvg-agent="Firefox",beIN SPORTS 1 1280x720
-http://190502.tomtv.eu:80/LiudmilaSheremet/233v9m9kjc/337959
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beİN SPORTS 1 1280x720
-http://nexusconnects.org:80/play/live.php?mac=00:1B:79:47:72:00&stream=988851&extension=ts&play_token=i9P5KZaJhe
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://ekmek82.shop/live/adnan678/uBjabktvQP/1536245.m3u
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://ekmek82.shop/live/adnan678/uBjabktvQP/1536246.m3u
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://190502.tomtv.eu:80/BahriY944/2xx143ukf9/77238
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://190502.tomtv.eu:80/BahriY944/2xx143ukf9/337958
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://ruzgarplayer.site:8080/25w8Fv8m2S9L/5zch9RjU4SVB/418442
-#EXTINF:-1 tvg-name="beinsports" tvg-logo="https://i.imgur.com/TgW5452.png" group-title="📡UYDU beIN SPORTS",beIN SPORTS 1 1920x1080
-http://line.tvdsz.cc/play/live.php?mac=00%3A1A%3A79%3AB5%3ACD%3A60&stream=988850&extension=ts`;
-let sources=[],curIdx=0,hls=null;
-function parseBein(t){
-  let lines=t.split("\n"), cur=null, arr=[];
-  for(let l of lines){
-    l=l.trim(); if(!l)continue;
-    if(l.startsWith("#EXTINF")){cur={title:l.split(",").pop().trim()||"beIN", raw:l}}
-    else if(cur&&l.startsWith("http")){cur.url=l; let q=cur.title.match(/(\d+x\d+|RAW|FHD|HD|TICARI|EXTRA)/i); cur.label=q?q[0].toUpperCase():`KAYNAK ${arr.length+1}`; arr.push(cur); cur=null}
-  }
-  return arr;
-}
-function renderSrc(){
-  let grid=document.getElementById("srcGrid"); grid.innerHTML="";
-  sources.forEach((s,i)=>{
-    let d=document.createElement("div"); d.className="srcChip"+(i==curIdx?" on":""); d.textContent=(i+1)+". "+s.label;
-    d.onclick=()=>playIdx(i); grid.appendChild(d);
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mırtı v90 Universal Hızlı</title><script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#070b14;color:#e8e6df;font-family:Arial;height:100vh;display:flex;flex-direction:column;overflow:hidden}header{height:40px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1e2a44;flex-shrink:0}#playerCol{height:42vh;min-height:240px;background:#000;display:flex;flex-direction:column;flex-shrink:0;position:relative}#player{flex:1;background:#000;display:flex;align-items:center;justify-content:center;position:relative}#video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}#idle{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:#000}#idle img{height:85%;max-width:90%;object-fit:contain;border-radius:10px}#status{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(0,0,0,.8);padding:6px 10px;border-radius:8px;font-size:10px;z-index:10;display:flex;justify-content:space-between}#epgBar{height:26px;background:#101c33;display:flex;align-items:center;padding:0 10px;font-size:10px;gap:6px;border-top:1px solid #1c2b4a;flex-shrink:0}#groups{height:38px;background:#0f2440;display:flex;gap:6px;padding:0 8px;overflow:auto;align-items:center;flex-shrink:0;border-bottom:1px solid #1c2b4a}.gChip{padding:6px 14px;background:#1e3a5f;border:1px solid #2a5a9a;border-radius:12px;font-size:11px;white-space:nowrap;cursor:pointer;flex-shrink:0;font-weight:700}.gChip.on{background:#ffcc00;color:#111;border-color:#ffcc00}#list{flex:1;overflow:hidden;background:#080d16;display:flex;flex-direction:column}#grid{flex:1;overflow:auto;padding:6px;display:grid;gap:6px}#grid.live{grid-template-columns:1fr 1fr;grid-auto-rows:62px}.item{height:62px;background:#142040;border:1px solid #1e2e51;border-radius:10px;display:flex;align-items:center;gap:8px;padding:5px 8px;cursor:pointer;position:relative}.item.on{border-color:#ffcc00}.logoBox{width:40px;height:40px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}.logoBox img{width:100%;height:100%;object-fit:contain}.info{flex:1;min-width:0}.info b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}.info span{font-size:10px;color:#8aa0c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}</style></head><body>
+<header><div style="font-weight:900">Mırtı v90 UNIVERSAL - Tüm Uzantılar</div><div id="speed" style="font-size:10px;background:#101c33;padding:4px 8px;border-radius:8px">Hazır</div></header>
+<div style="display:flex;gap:4px;padding:6px;background:#0d1a33;border-bottom:1px solid #1c2b4a;overflow:auto"><button data-tab="live" class="tab on" style="padding:6px 14px;border-radius:14px;border:1px solid #2a5a9a;background:#ff3b30;color:#fff;font-weight:800;font-size:10px">CANLI</button><button data-tab="movie" class="tab" style="padding:6px 14px;border-radius:14px;border:1px solid #2a5a9a;background:#1e3a5f;color:#fff;font-weight:800;font-size:10px">FİLM</button><button data-tab="series" class="tab" style="padding:6px 14px;border-radius:14px;border:1px solid #2a5a9a;background:#1e3a5f;color:#fff;font-weight:800;font-size:10px">DİZİ</button><button data-tab="radio" class="tab" style="padding:6px 14px;border-radius:14px;border:1px solid #2a5a9a;background:#1e3a5f;color:#fff;font-weight:800;font-size:10px">RADYO</button><button data-tab="all" class="tab" style="padding:6px 14px;border-radius:14px;border:1px solid #2a5a9a;background:#1e3a5f;color:#fff;font-weight:800;font-size:10px">TÜMÜ</button></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="auto"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"></div><div id="status"><span id="stLeft">Hazır</span><span id="stRight"></span></div></div><div id="epgBar"><span id="epgNow">M3U yükleniyor...</span></div></div>
+<div id="groups"></div><div id="list"><div id="grid" class="live"></div></div>
+<script>
+const M3U_URLS=["https://raw.githubusercontent.com/ipmirti68/-p/main/m%C4%B1rt%C4%B168.m3u","https://raw.githubusercontent.com/ipmirti68/-p/main/mirti68.m3u"];
+const EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
+const DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+let channels=[],groupOrder=[],curTab="live",curGroup=null,curCh=null,hls=null,lastUrl="";
+const $=id=>document.getElementById(id);
+function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i")}
+function cleanGroup(g){return (g||"Genel").trim()}
+function getType(g){let n=norm(g);if(n.includes("radyo")||n.includes("radio"))return "radio";if(n.includes("dizi")||n.includes("series"))return "series";if(n.includes("film")||n.includes("movie")||n.includes("vod"))return "movie";return "live"}
+function parseM3U(t){
+  let list=[],seen={};groupOrder=[];
+  t.replace(/\r/g,"").split("\n").forEach(line=>{
+    line=line.trim(); if(!line) return;
+    if(line.toUpperCase().startsWith("#EXTINF")){
+      let lo=line.match(/tvg-logo="([^"]+)"/i), gr=line.match(/group-title="([^"]+)"/i), id=line.match(/tvg-id="([^"]+)"/i);
+      let c=line.lastIndexOf(","); window._c={title:c!=-1?line.slice(c+1).trim():"Kanal",group:gr?gr[1]:"Genel",logo:lo?lo[1]:"",tvgId:id?id[1]:""};
+      if(!seen[window._c.group]){seen[window._c.group]=1; groupOrder.push(window._c.group)}
+    }else if(window._c && line.startsWith("http")){
+      window._c.url=line.split("|")[0].trim(); window._c.type=getType(window._c.group); list.push({...window._c}); window._c=null;
+    }
   });
-  document.getElementById("count").textContent=sources.length+" link";
+  return list; // GELDİĞİ GİBİ - sıralama yok
 }
-function playIdx(i){
-  curIdx=i; let s=sources[i]; document.getElementById("status").textContent=`Kaynak ${i+1}/${sources.length} - ${s.label} deneniyor...`; document.getElementById("epg").textContent=`${s.title} | ${s.label} | Kaynak ${i+1}`;
-  renderSrc();
-  let v=document.getElementById("video");
+function getFiltered(){
+  let list=channels; if(curTab!="all") list=list.filter(c=>c.type==curTab);
+  if(curGroup) list=list.filter(c=>c.group==curGroup);
+  return list;
+}
+function renderGroups(){
+  let g=$("groups"); g.innerHTML="";
+  let counts={}; getFilteredRaw().forEach(c=>{counts[c.group]=(counts[c.group]||0)+1});
+  // grupları M3U sırasına göre göster
+  groupOrder.forEach(gr=>{
+    if(curTab!="all"){ let has=channels.some(ch=>ch.group==gr && ch.type==curTab); if(!has) return; }
+    let chip=document.createElement("div"); chip.className="gChip"+(curGroup==gr?" on":""); chip.textContent=gr;
+    chip.onclick=()=>{curGroup=curGroup==gr?null:gr; renderGroups(); renderGrid();}; g.appendChild(chip);
+  });
+}
+function getFilteredRaw(){let l=channels; if(curTab!="all") l=l.filter(c=>c.type==curTab); return l;}
+function renderGrid(){
+  let grid=$("grid"),list=getFiltered(); grid.innerHTML="";
+  if(!list.length){grid.innerHTML="<div style='padding:20px;color:#888'>Boş</div>";return}
+  list.forEach(ch=>{
+    let row=document.createElement("div"); row.className="item"+(curCh&&curCh.url==ch.url?" on":"");
+    row.innerHTML=`<div class="logoBox"><img src="${ch.logo||DEFAULT_LOGO}" onerror="this.src='${DEFAULT_LOGO}'"></div><div class="info"><b>${ch.title}</b><span>${ch.group}</span></div>`;
+    row.onclick=()=>play(ch); grid.appendChild(row);
+  });
+}
+function setStatus(l,r){$("stLeft").textContent=l; if(r!==undefined) $("stRight").textContent=r;}
+function play(ch){
+  curCh=ch; $("idle").style.display="none"; let v=$("video");
   if(hls){try{hls.destroy()}catch(e){}hls=null}
-  v.pause();
-  if(s.url.includes(".m3u8")||s.url.includes("vavoo")||s.url.includes(".m3u")){
+  v.pause(); v.removeAttribute("src"); v.load();
+  let url=ch.url; lastUrl=url;
+  setStatus(`▶ ${ch.title}`, url.split("/").pop().substring(0,30));
+  $("epgNow").textContent=ch.group+" | "+ch.title+" | "+url.substring(0,60);
+  
+  // UNIVERSAL PLAYER LOGIC
+  let lowUrl=url.toLowerCase();
+  let isHls = lowUrl.includes(".m3u8") || lowUrl.includes(".m3u") || lowUrl.includes("vavoo") || lowUrl.includes("playlist");
+  let isTs = lowUrl.includes(".ts") || lowUrl.includes("extension=ts") || lowUrl.includes("output=ts") || lowUrl.includes(":8080") || lowUrl.includes(":2095");
+  
+  if(isHls){
     if(Hls.isSupported()){
-      hls=new Hls({enableWorker:true,lowLatencyMode:true});
-      hls.loadSource(s.url); hls.attachMedia(v);
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>{v.play().catch(()=>{}); document.getElementById("status").textContent=`▶ OYNATILIYOR - Kaynak ${i+1} ${s.label}`; setTimeout(()=>document.getElementById("status").style.display="none",2000)});
-      hls.on(Hls.Events.ERROR,(ev,data)=>{
+      hls=new Hls({
+        enableWorker:true, lowLatencyMode:true, maxMaxBufferLength:8, maxBufferSize:10*1000*1000,
+        maxBufferLength:8, liveSyncDurationCount:2, liveMaxLatencyDurationCount:4
+      });
+      hls.loadSource(url); hls.attachMedia(v);
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>{v.play().catch(()=>{}); setStatus(`▶ OYNATILIYOR HLS`, ch.title)});
+      hls.on(Hls.Events.ERROR,(e,data)=>{
         if(data.fatal){
-          document.getElementById("status").style.display="block";
-          document.getElementById("status").textContent=`✖ Kaynak ${i+1} hata - Sonrakine geçiyor...`;
-          setTimeout(()=>{playIdx((i+1)%sources.length)},1500);
+          setStatus(`✖ HLS HATA ${data.details} - Direct deneniyor...`);
+          // fallback direct
+          setTimeout(()=>{v.src=url; v.play().catch(()=>setStatus(`✖ Direct de olmadı`))},400);
         }
       });
-    }else{v.src=s.url; v.play()}
-  }else{v.src=s.url; v.play().catch(()=>{document.getElementById("status").textContent=`✖ Kaynak ${i+1} oynatamadı - Sonraki...`; setTimeout(()=>playIdx((i+1)%sources.length),1500)});}
-  v.onplaying=()=>{document.getElementById("status").style.display="none"; document.getElementById("net").textContent="CANLI "+s.label; let chip=document.querySelectorAll(".srcChip")[i]; if(chip) chip.classList.add("ok")};
-  v.onerror=()=>{document.getElementById("status").style.display="block"; document.getElementById("status").textContent=`✖ Hata - Kaynak ${i+1} -> ${i+2}`; let chip=document.querySelectorAll(".srcChip")[i]; if(chip) chip.classList.add("fail"); setTimeout(()=>playIdx((i+1)%sources.length),1200)};
+    }else{v.src=url; v.play()}
+  }else if(isTs){
+    // .ts dosyaları direkt video tag ile oynar, olmazsa hls ile dene
+    v.src=url; v.play().then(()=>setStatus(`▶ TS DIRECT OK`, ch.title)).catch(()=>{
+      setStatus(`TS direct olmadı, HLS deneniyor...`);
+      if(Hls.isSupported()){hls=new Hls({enableWorker:true}); hls.loadSource(url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play())}
+    });
+  }else{
+    // diğer her şey (mp4, mkv, http ts)
+    v.src=url; v.play().then(()=>setStatus(`▶ DIRECT OK`)).catch(e=>setStatus(`✖ Oynatılamadı: ${e.message}`));
+  }
+  v.onplaying=()=>{ $("speed").textContent="CANLI"; setStatus(`▶ ${ch.title}`, "Oynatılıyor"); };
+  v.onerror=()=>{setStatus(`✖ Hata - Sonraki kaynağı dene`, v.error? v.error.code:"")};
+  renderGrid();
 }
-sources=parseBein(rawList); renderSrc(); playIdx(0);
-document.getElementById("nextSrc").onclick=()=>playIdx((curIdx+1)%sources.length);
-document.getElementById("fsBtn").onclick=()=>{let el=document.getElementById("player"); if(!document.fullscreenElement) el.requestFullscreen(); else document.exitFullscreen()};
+function loadM3U(){
+  $("epgNow").textContent="M3U yükleniyor...";
+  fetch(M3U_URLS[0],{cache:"no-store"}).then(r=>r.text()).then(t=>{
+    channels=parseM3U(t);
+    $("epgNow").textContent=channels.length+" kanal yüklendi - GELDİĞİ GİBİ SIRALI - Tüm uzantılar aktif";
+    setStatus(`✓ ${channels.length} kanal - Hızlı mod aktif`, "v90");
+    renderGroups(); renderGrid();
+  }).catch(()=>fetch(M3U_URLS[1]).then(r=>r.text()).then(t=>{channels=parseM3U(t); renderGroups(); renderGrid()}));
+}
+document.querySelectorAll(".tab").forEach(btn=>{btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(b=>{b.classList.remove("on"); b.style.background="#1e3a5f"}); btn.classList.add("on"); btn.style.background="#ff3b30"; curTab=btn.dataset.tab; curGroup=null; renderGroups(); renderGrid()})});
+loadM3U();
 </script></body></html>
